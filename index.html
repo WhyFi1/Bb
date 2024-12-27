@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Anti-Copy Website</title>
+    <style>
+        /* Minified CSS for protection */
+        body{font-family:Arial,sans-serif;padding:20px;}h1{color:#333;}p{color:#666;}
+        .content{padding:10px;border:1px solid #ddd;margin-top:20px;background-color:#f9f9f9;}
+        .warning{color:red;font-weight:bold;}
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to My Secure Website</h1>
+    <p>This page includes advanced protections for both JavaScript and CSS.</p>
+    
+    <div class="content">
+        <p>This is visible content, but copying this will give you a different message.</p>
+    </div>
+
+    <script>
+        // Minified and obfuscated JavaScript for protection
+        (function() {
+            // Prevent right-click context menu
+            document.addEventListener('contextmenu',function(e){e.preventDefault();alert('Right-clicking is disabled!');});
+            
+            // Prevent copying via keyboard shortcuts (Ctrl+C, Cmd+C)
+            document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='c'){e.preventDefault();alert('Copying via keyboard shortcuts is disabled!');}});
+            
+            // Intercept copy events and replace copied content with a warning message
+            document.addEventListener('copy',function(e){var newContent='You attempted to copy content, but this is what was copied:\n[PROTECTED CONTENT]';e.clipboardData.setData('text/plain',newContent);e.preventDefault();});
+            
+            // Disable text dragging
+            document.addEventListener('dragstart',function(e){e.preventDefault();alert('Dragging content is disabled!');});
+            
+            // Warn if developer tools are opened (basic detection)
+            var devtools = /./;
+            devtools.toString = function() {
+                alert('Developer tools are opened!');
+            };
+            console.log(devtools);
+
+            // Additional check: Warn if developer tools are opened using certain browser behavior
+            (function() {
+                var devtools = /./;
+                devtools.toString = function() {
+                    alert('Developer tools are opened!');
+                };
+                console.log(devtools);
+            })();
+            
+        })();
+
+        // Encode content to discourage easy inspection or copying
+        (function() {
+            var encodedMessage = btoa('This is a protected message, don\'t attempt to decode it easily!');
+            document.body.innerHTML += "<p>Encoded Message: " + encodedMessage + "</p>";
+        })();
+        
+        // Example of dynamic JavaScript content protection by encoding a message
+        (function() {
+            var dynamicMessage = btoa("Dynamic JS message that is not easily readable.");
+            console.log("Encoded JS message:", dynamicMessage);
+        })();
+
+    </script>
+
+</body>
+</html>
