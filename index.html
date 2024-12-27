@@ -5,66 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Anti-Copy Website</title>
     <style>
-        /* Minified CSS for protection */
-        body{font-family:Arial,sans-serif;padding:20px;}h1{color:#333;}p{color:#666;}
-        .content{padding:10px;border:1px solid #ddd;margin-top:20px;background-color:#f9f9f9;}
-        .warning{color:red;font-weight:bold;}
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .content {
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+            background-color: #f9f9f9;
+        }
+        .warning {
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-    <h1>Welcome to My Secure Website</h1>
-    <p>This page includes advanced protections for both JavaScript and CSS.</p>
+    <h1>Welcome to My Website</h1>
+    <p>This page implements advanced anti-copying techniques.</p>
     
     <div class="content">
-        <p>This is visible content, but copying this will give you a different message.</p>
+        <p>This is the visible content of the website, but if you try to copy it, you'll get a different text.</p>
     </div>
 
     <script>
-        // Minified and obfuscated JavaScript for protection
+        // Disable Right-Click Context Menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();  // Prevent the context menu from appearing
+            alert('Right-clicking is disabled on this website!');
+        });
+
+        // Prevent Copying via Keyboard Shortcuts (Ctrl+C or Command+C)
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+                e.preventDefault(); // Disable copy via keyboard shortcut
+                alert('Keyboard shortcuts for copying are disabled!');
+            }
+        });
+
+        // Intercept Copy Events and Modify Copied Content
+        document.addEventListener('copy', function(e) {
+            // Create a new clipboard item with a more dynamic message
+            var newContent = 'You attempted to copy content from this website, but this is what was copied instead:\n\n';
+            newContent += '[PROTECTED CONTENT] - Unauthorized copying is discouraged!';
+
+            // Set the manipulated content to the clipboard
+            e.clipboardData.setData('text/plain', newContent);
+
+            // Prevent default copying behavior (the original content)
+            e.preventDefault();
+        });
+
+        // Disable Drag and Drop for Copying Text
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();  // Prevent dragging of content
+            alert('Dragging text is disabled on this website!');
+        });
+
+        // Additional: Alert User if They Attempt to Inspect the Source Code
+        window.addEventListener('devtoolschange', function(e) {
+            if (e.detail.open) {
+                alert('You cannot inspect the source code of this page!');
+            }
+        });
+
+        // Detect if the Developer Tools are opened (based on user agent)
         (function() {
-            // Prevent right-click context menu
-            document.addEventListener('contextmenu',function(e){e.preventDefault();alert('Right-clicking is disabled!');});
-            
-            // Prevent copying via keyboard shortcuts (Ctrl+C, Cmd+C)
-            document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='c'){e.preventDefault();alert('Copying via keyboard shortcuts is disabled!');}});
-            
-            // Intercept copy events and replace copied content with a warning message
-            document.addEventListener('copy',function(e){var newContent='You attempted to copy content, but this is what was copied:\n[PROTECTED CONTENT]';e.clipboardData.setData('text/plain',newContent);e.preventDefault();});
-            
-            // Disable text dragging
-            document.addEventListener('dragstart',function(e){e.preventDefault();alert('Dragging content is disabled!');});
-            
-            // Warn if developer tools are opened (basic detection)
             var devtools = /./;
             devtools.toString = function() {
                 alert('Developer tools are opened!');
             };
             console.log(devtools);
-
-            // Additional check: Warn if developer tools are opened using certain browser behavior
-            (function() {
-                var devtools = /./;
-                devtools.toString = function() {
-                    alert('Developer tools are opened!');
-                };
-                console.log(devtools);
-            })();
-            
         })();
-
-        // Encode content to discourage easy inspection or copying
-        (function() {
-            var encodedMessage = btoa('This is a protected message, don\'t attempt to decode it easily!');
-            document.body.innerHTML += "<p>Encoded Message: " + encodedMessage + "</p>";
-        })();
-        
-        // Example of dynamic JavaScript content protection by encoding a message
-        (function() {
-            var dynamicMessage = btoa("Dynamic JS message that is not easily readable.");
-            console.log("Encoded JS message:", dynamicMessage);
-        })();
-
     </script>
 
 </body>
